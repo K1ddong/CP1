@@ -1,11 +1,11 @@
 from PyNaver import Datalab
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
-from config import get_secret
+# from config import get_secret
 
 
 
-def get_naver_trends(NAVER_API_ID, NAVER_API_SECRET,keyword):
+def main(keyword,NAVER_API_ID, NAVER_API_SECRET):
     
     # 네이버 데이터랩 API 세션 정의
     DL = Datalab(NAVER_API_ID, NAVER_API_SECRET)
@@ -31,4 +31,4 @@ if __name__ == '__main__':
     NAVER_API_ID = get_secret("NAVER_API_ID")
     NAVER_API_SECRET = get_secret("NAVER_API_SECRET")
     keyword = '밥솥'
-    get_naver_trends(NAVER_API_ID, NAVER_API_SECRET,keyword)
+    main(keyword,NAVER_API_ID, NAVER_API_SECRET)

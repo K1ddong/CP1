@@ -24,10 +24,11 @@ def main(keyword):
         driver.execute_script("window.scrollTo(0, 5000)")
         time.sleep(0.5) 
 
-    get_item_info(driver)
+    info = get_item_info(driver)
 
     driver.close()
- 
+    
+    return info
 
 def get_item_info(driver):
     item_info = []
@@ -53,5 +54,5 @@ def get_item_info(driver):
 if __name__ == '__main__':
     # keyword = input('검색할 상품 키워드를 입력하세요...')
     keyword = '밥솥'
-    main(keyword)
+    print(main(keyword))
 

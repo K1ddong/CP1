@@ -5,10 +5,46 @@ import pandas as pd
 import time
 import re
 
+
 def get_url(keyword):
     url = f'https://shopee.com.my/search?keyword={keyword}&sortBy=sales' #페이지 필요할 경우 &page={}
     return url
 
+def solds_unifier(solds):
+    amount = solds.split(' ')[0]
+    if amount[-1] == 'k':
+        amount = float(amount[:-1]) * 1000
+    elif amount[-1] == 'm':
+        amount = float(amount[:-1]) * 1000000
+    else:
+        return int(amount)
+    return int(amount)
+
+def get_item_info(driver):
+    html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
+    item_list = soup.find_all('div',{'class':'col-xs-2-4 shopee-search-item-result__item'})
+
+    item_info = []
+
+    
+
+    for item in item_list:
+        item_title = item.find('div',{'class':'_10Wbs- _2STCsK _3IqNCf'}).text.strip()
+        item_price = item.find('span',{'class':'_3c5u7X'}).text.strip()
+        item_price = float(re.sub('[^0-9.]', '',item_price))
+        sold = item.find('div',{'class':'_1uq9fs'}).text.strip()
+        try:
+            solds = solds_unifier(sold)
+        except IndexError:
+            solds = 999999
+        # reviews = int(re.sub('[^0-9]', '',reviews))
+        item_info.append([item_title,item_price,solds])
+    
+    #쇼피 첫 5개 및 마지막 5개 광고 상품 제외
+    item_info = item_info[5:55]
+    item_info_df = pd.DataFrame(item_info, columns=['title','price','solds'])
+    return item_info_df
 
 def main(keyword):
     options = FirefoxOptions()
@@ -38,40 +74,10 @@ def main(keyword):
         y += 500
         last_height = new_height
 
-    get_item_info(driver)
+    info = get_item_info(driver)
 
     driver.close()
- 
-def get_item_info(driver):
-    html = driver.page_source
-    soup = BeautifulSoup(html, "html.parser")
-    item_list = soup.find_all('div',{'class':'col-xs-2-4 shopee-search-item-result__item'})
-
-    item_info = []
-
-    def solds_unifier(solds):
-        amount = solds.split(' ')[0]
-        if amount[-1] == 'k':
-            amount = float(amount[:-1]) * 1000
-        elif amount[-1] == 'm':
-            amount = float(amount[:-1]) * 1000000
-        else:
-            return int(amount)
-        return int(amount)
-
-    for item in item_list:
-        item_title = item.find('div',{'class':'_10Wbs- _2STCsK _3IqNCf'}).text.strip()
-        item_price = item.find('span',{'class':'_3c5u7X'}).text.strip()
-        item_price = float(re.sub('[^0-9.]', '',item_price))
-        solds = item.find('div',{'class':'_1uq9fs'}).text.strip()
-        solds = solds_unifier(solds)
-        # reviews = int(re.sub('[^0-9]', '',reviews))
-        item_info.append([item_title,item_price,solds])
-    
-    #쇼피 첫 5개 및 마지막 5개 광고 상품 제외
-    item_info = item_info[5:55]
-    item_info_df = pd.DataFrame(item_info, columns=['title','price','solds'])
-    return item_info_df
+    return info
 
 
 # def get_item_info(driver):

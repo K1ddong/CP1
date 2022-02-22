@@ -4,7 +4,7 @@ import base64
 import time
 import requests
 import pandas as pd
-from config import get_secret
+# from config import get_secret
 
 
 class Signature:
@@ -26,9 +26,10 @@ def get_header(method, uri, API_KEY, SECRET_KEY, CUSTOMER_ID):
             'X-Customer': str(CUSTOMER_ID), 'X-Signature': signature}
 
 
-def get_data(keyword):
+def main(keyword,API_KEY, SECRET_KEY, CUSTOMER_ID):
     uri = '/keywordstool'
     method = 'GET'
+    BASE_URL = 'https://api.naver.com'
     r = requests.get(BASE_URL + uri+'?hintKeywords={}&showDetail=1'.format(keyword),
                     headers=get_header(method, uri, API_KEY, SECRET_KEY, CUSTOMER_ID))
 
@@ -46,12 +47,11 @@ def get_data(keyword):
     #모바일/PC 검색량 비율
     #모바일 ctr, pc ctr
     return keyword_search_volume,top_10_related_keywords
-
+    
 
 if __name__ == '__main__':
-    BASE_URL = 'https://api.naver.com'
     API_KEY = get_secret("API_KEY")
     SECRET_KEY = get_secret("SECRET_KEY")
     CUSTOMER_ID = get_secret("CUSTOMER_ID")
     keyword = '밥솥'
-    get_data(keyword)
+    main(keyword,API_KEY, SECRET_KEY, CUSTOMER_ID)
