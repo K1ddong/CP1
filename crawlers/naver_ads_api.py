@@ -1,11 +1,9 @@
-from ast import keyword
 import hashlib
 import hmac
 import base64
 import time
-import random
 import requests
-import json
+import pandas as pd
 from config import get_secret
 
 
@@ -38,14 +36,18 @@ def get_data(keyword):
     keyword_data = list(filter(lambda x:keyword in x['relKeyword'], r.json()['keywordList']))
     #필요한 것
     ##키워드 검색량
-    print('키워드 검색량', keyword_data[0])
+    # print('키워드 검색량', keyword_data[0])
+    keyword_search_volume = pd.DataFrame(keyword_data[0],index=[0])
     ##검색량 기준 연관키워드 검색량
-    test = [x for x in keyword_data if type(x['monthlyMobileQcCnt']) == int ]
-    # print(test)
-    top_10 = sorted(test, key = lambda x: x['monthlyMobileQcCnt'], reverse=True)
-    print('연관 키워드',top_10[:10])
+    volume_by_mobile = [x for x in keyword_data if type(x['monthlyMobileQcCnt']) == int ]
+    top_10_by_volume = sorted(volume_by_mobile, key = lambda x: x['monthlyMobileQcCnt'], reverse=True)
+    # print('연관 키워드',top_10_by_volume[:10])
+    top_10_related_keywords = pd.DataFrame.from_dict(top_10_by_volume[:10])
     #모바일/PC 검색량 비율
     #모바일 ctr, pc ctr
+    return keyword_search_volume,top_10_related_keywords
+
+
 if __name__ == '__main__':
     BASE_URL = 'https://api.naver.com'
     API_KEY = get_secret("API_KEY")

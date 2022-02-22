@@ -1,31 +1,23 @@
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-import time
-from selenium.webdriver.common.by import By
-import urllib.request
-from bs4 import BeautifulSoup
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from bs4 import BeautifulSoup
 
+import pandas as pd
+import time
 import re
 
-#로컬용
-chromedriver_loc = '/Users/dennis/projects/cp1/venv/chromedriver'
-geckodriver_loc = '/Users/dennis/projects/cp1/venv/geckodriver'
 
-def get_url(search_term):
-    url = f'https://search.shopping.naver.com/search/all?query={search_term}'
+def get_url(keyword):
+    url = f'https://search.shopping.naver.com/search/all?query={keyword}'
     return url
 
 
-def main(search_term):
+def main(keyword):
     options = FirefoxOptions()
-    # options.add_argument("--headless")
+    options.add_argument("--headless")
     driver = webdriver.Firefox(options=options)
 
-    url = get_url(search_term)
+    url = get_url(keyword)
     driver.get(url)
 
     for i in range(3):
@@ -44,6 +36,7 @@ def get_item_info(driver):
     item_list = soup.find_all('div',{'class':'basicList_inner__eY_mq'})
 
 
+    #리스트 형태 item_info
     for item in item_list:
         item_title = item.find('div',{'class':'basicList_title__3P9Q7'}).text.strip()
         item_price = item.find('span',{'class':'price_num__2WUXn'}).text.strip()
@@ -51,11 +44,14 @@ def get_item_info(driver):
         reviews = item.find('em',{'class':'basicList_num__1yXM9'}).text.strip()
         reviews = int(re.sub('[^0-9]', '',reviews))
         item_info.append([item_title,item_price,reviews])
-    print(item_info)
-    return item_info
+    # print(item_info)
+    #네이버 쇼핑 상품 리스트 중 앞 4개 광고 상품 제외
+    item_info = item_info[4:] 
+    item_info_df = pd.DataFrame(item_info, columns= ['title', 'price', 'reviews'])
+    return item_info_df
 
 if __name__ == '__main__':
-    # search_term = input('검색할 상품 키워드를 입력하세요...')
-    search_term = '밥솥'
-    main(search_term)
+    # keyword = input('검색할 상품 키워드를 입력하세요...')
+    keyword = '밥솥'
+    main(keyword)
 

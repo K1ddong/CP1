@@ -1,5 +1,4 @@
 from pytrends.request import TrendReq
-import pandas as pd
 
 
 def show_google_trends(keyword):
@@ -19,7 +18,7 @@ def show_google_trends(keyword):
     keyword_search_trend = trendshow.interest_over_time()
     keyword_search_trend.reset_index(inplace=True)
     keyword_search_trend = keyword_search_trend[['date',keyword[0]]]
-    print(rising_related_keywords,top_related_keywords,keyword_search_trend)
+    return rising_related_keywords,top_related_keywords,keyword_search_trend
 
 
 if __name__ == '__main__':

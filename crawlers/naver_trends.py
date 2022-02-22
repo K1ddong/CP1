@@ -24,7 +24,7 @@ def get_naver_trends(NAVER_API_ID, NAVER_API_SECRET,keyword):
 
     # 결과 데이터를 DataFrame으로 조회하기
     df = DL.get_data(startDate, endDate, timeUnit, device, ages, gender)
-    print(df)
+    return df
 
 
 if __name__ == '__main__':
