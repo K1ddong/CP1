@@ -76,7 +76,8 @@ def main(keyword):
 
     info = get_item_info(driver)
 
-    driver.close()
+    # driver.close()
+    driver.quit()
     return info
 
 
