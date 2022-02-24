@@ -28,7 +28,9 @@ def main(keyword):
 
     # driver.close()
     driver.quit()
-    
+    info.rename({'title':'상품명',
+    'price':'가격(원)',
+    'reviews':'누적 리뷰수'},axis=1,inplace=True)
     return info
 
 def get_item_info(driver):

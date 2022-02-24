@@ -46,6 +46,26 @@ def main(keyword,API_KEY, SECRET_KEY, CUSTOMER_ID):
     top_10_related_keywords = pd.DataFrame.from_dict(top_10_by_volume[:10])
     #모바일/PC 검색량 비율
     #모바일 ctr, pc ctr
+    keyword_search_volume.rename({'compIdx':'경쟁정도',
+           'monthlyAveMobileClkCnt':'월평균클릭수_모바일',
+           'monthlyAveMobileCtr':'월평균클릭률_모바일',
+           'monthlyAvePcClkCnt':'월평균클릭수_PC',
+           'monthlyAvePcCtr':'월평균클릭률_PC', 
+           'monthlyMobileQcCnt':'월간검색수_모바일',
+           'monthlyPcQcCnt': '월간검색수_PC',
+           'plAvgDepth':'월평균노출광고수', 
+           'relKeyword':'연관키워드'},axis=1,inplace=True)
+    top_10_related_keywords.rename({'compIdx':'경쟁정도',
+    'monthlyAveMobileClkCnt':'월평균클릭수_모바일',
+    'monthlyAveMobileCtr':'월평균클릭률_모바일',
+    'monthlyAvePcClkCnt':'월평균클릭수_PC',
+    'monthlyAvePcCtr':'월평균클릭률_PC', 
+    'monthlyMobileQcCnt':'월간검색수_모바일',
+    'monthlyPcQcCnt': '월간검색수_PC',
+    'plAvgDepth':'월평균노출광고수', 
+    'relKeyword':'연관키워드'},axis=1,inplace=True)
+    keyword_search_volume.drop(['경쟁정도','월평균노출광고수'], axis=1, inplace=True)
+    top_10_related_keywords.drop(['경쟁정도','월평균노출광고수'], axis=1, inplace=True)
     return keyword_search_volume,top_10_related_keywords
     
 

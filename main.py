@@ -74,9 +74,9 @@ dash_app1 = Dash(__name__, server=application, url_base_pathname='/dashapp1/')
 dash_app1.layout = html.Div(
     # Header Message
     children=[
-        html.H1(children="Temp Analytics",),
+        html.H1(children="오류가 발생했습니다.",),
         html.P(
-            children="Temp",
+            children="다시 검색해주세요",
         )
     ]
 )
@@ -134,26 +134,190 @@ def home():
     dash_app1.layout = html.Div(
     # Header Message
     children=[
-        html.H1(children="Temp Analytics",),
-        html.P(
-            children="Temp",
+        html.Div([html.H1(children=f'\'{keyword}\' 키워드 분석 결과')],style={
+             'text-align':'center'}),
+        html.Div([
+        html.H3(
+            children=f"네이버 \'{keyword}\' 키워드 검색량",
         ),
         dt.DataTable(
             keyword_search_volume.to_dict('records'),
-            [{"name":i, "id":i} for i in keyword_search_volume.columns]
+            [{"name":i, "id":i} for i in keyword_search_volume.columns],
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto'},
+            style_table={
+                'maxHeight': '50ex',
+                'overflowY': 'scroll',
+                'width': '100%',
+                'minWidth': '100%',
+            },
+            # style cell
+            style_cell={
+                'fontFamily': 'Open Sans',
+                'textAlign': 'center',
+                'height': '45px',
+                'padding': '2px 22px',
+                'whiteSpace': 'inherit',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis',
+            },
+            # style header
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': 'azure',
+            },
+            # style filter
+            # style data
+            style_data_conditional=[
+                {
+                    # stripped rows
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
+                }],
+        ),
+        html.H3(
+            children=f"네이버 \'{keyword}\' 키워드 연관 검색어 및 검색량",
         ),
         dt.DataTable(
             top_10_related_keywords.to_dict('records'),
-            [{"name":i, "id":i} for i in top_10_related_keywords.columns]
+            [{"name":i, "id":i} for i in top_10_related_keywords.columns],
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'textAlign': 'center'},
+            style_table={
+                'maxHeight': '50ex',
+                'overflowY': 'scroll',
+                'width': '100%',
+                'minWidth': '100%',
+            },
+            # style cell
+            style_cell={
+                'fontFamily': 'Open Sans',
+                'textAlign': 'center',
+                'height': '45px',
+                'padding': '2px 22px',
+                'whiteSpace': 'inherit',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis',
+            },
+            # style header
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': 'azure',
+            },
+            # style filter
+            # style data
+            style_data_conditional=[
+                {
+                    # stripped rows
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
+                }],
+        ),
+        ],style={'margin-bottom':'300px',
+             'text-align':'center',
+             'backgroundColor':"#dbe4f0 ",
+             'border':"2px solid LightSteelBlue",
+             'width':"70%",
+             'display':"inline-block",
+             'margin':"1em",
+             'margin-left': '15%', 
+             'margin-right': '15%'}),
+        html.Div([
+        html.H3(
+            children=f"네이버 쇼핑 \'{keyword}\' 상품 상위 TOP30",
         ),
         dt.DataTable(
             naver_item_info.to_dict('records'),
-            [{"name":i, "id":i} for i in naver_item_info.columns]
+            [{"name":i, "id":i} for i in naver_item_info.columns],
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'textAlign': 'center'},
+            style_table={
+                'maxHeight': '50ex',
+                'overflowY': 'scroll',
+                'width': '100%',
+                'minWidth': '100%',
+            },
+            # style cell
+            style_cell={
+                'fontFamily': 'Open Sans',
+                'textAlign': 'center',
+                'height': '45px',
+                'padding': '2px 22px',
+                'whiteSpace': 'inherit',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis',
+            },
+            # style header
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': 'azure',
+            },
+            # style filter
+            # style data
+            style_data_conditional=[
+                {
+                    # stripped rows
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
+                }],
+        ),
+        html.H3(
+            children=f"쇼피 말레이시아 \'{keyword}\' 상품 상위 TOP50",
         ),
         dt.DataTable(
             shopee_item_info.to_dict('records'),
-            [{"name":i, "id":i} for i in shopee_item_info.columns]
+            [{"name":i, "id":i} for i in shopee_item_info.columns],
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'textAlign': 'center'},
+            style_table={
+                'maxHeight': '50ex',
+                'overflowY': 'scroll',
+                'width': '100%',
+                'minWidth': '100%',
+            },
+            # style cell
+            style_cell={
+                'fontFamily': 'Open Sans',
+                'textAlign': 'center',
+                'height': '45px',
+                'padding': '2px 22px',
+                'whiteSpace': 'inherit',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis',
+            },
+            # style header
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': 'azure',
+            },
+            # style filter
+            # style data
+            style_data_conditional=[
+                {
+                    # stripped rows
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
+                }],
         ),
+        ],style={'margin-bottom':'300px',
+             'text-align':'center',
+             'backgroundColor':"#dbe4f0 ",
+             'border':"2px solid LightSteelBlue",
+             'width':"70%",
+             'display':"inline-block",
+             'margin':"1em",
+             'margin-left': '15%', 
+             'margin-right': '15%'}),
+        html.Div([
+        html.H3(
+            children=f"네이버/구글(말레이시아) \'{keyword}\'/\'{keyword_en}\' 키워드 검색 추이"),
         # 그래프		
         dcc.Graph(
             figure={
@@ -169,22 +333,110 @@ def home():
                         "type": "lines", "name":"google"
                     },
                 ],
-                "layout": {"title": "Title_1"},
+                "layout": {"title":f"네이버/구글(말레이시아) \'{keyword}\'/\'{keyword_en}\' 키워드 검색 추이"},
             },
+        ),
+        ],style={'margin-bottom':'300px',
+             'text-align':'center',
+             'backgroundColor':"#dbe4f0 ",
+             'border':"2px solid LightSteelBlue",
+             'width':"70%",
+             'display':"inline-block",
+             'margin':"1em",
+             'margin-left': '15%', 
+             'margin-right': '15%'}),
+        html.Div([
+        html.H3(
+            children=f"구글(말레이시아) \'{keyword_en}\'키워드의 떠오르는 연관 키워드",
         ),
         dt.DataTable(
             rising_related_keywords.to_dict('records'),
-            [{"name":i, "id":i} for i in rising_related_keywords.columns]
+            [{"name":i, "id":i} for i in rising_related_keywords.columns],
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'textAlign': 'center'},
+            style_table={
+                'maxHeight': '50ex',
+                'overflowY': 'scroll',
+                'width': '100%',
+                'minWidth': '100%',
+            },
+            # style cell
+            style_cell={
+                'fontFamily': 'Open Sans',
+                'textAlign': 'center',
+                'height': '45px',
+                'padding': '2px 22px',
+                'whiteSpace': 'inherit',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis',
+            },
+            # style header
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': 'azure',
+            },
+            # style filter
+            # style data
+            style_data_conditional=[
+                {
+                    # stripped rows
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
+                }]
+            # style filter
+            # style data,
+        ),
+        html.H3(
+            children=f"구글(말레이시아) \'{keyword_en}\'키워드의 상위 연관 키워드",
         ),
         dt.DataTable(
             top_related_keywords.to_dict('records'),
-            [{"name":i, "id":i} for i in top_related_keywords.columns]
-        ),
-        dt.DataTable(
-            naver_trend.to_dict('records'),
-            [{"name":i, "id":i} for i in naver_trend.columns]
-        ),
-    ]
+            [{"name":i, "id":i} for i in top_related_keywords.columns],
+            style_data={
+                'whiteSpace': 'normal',
+                'height': 'auto',
+                'textAlign': 'center'},
+            style_table={
+                'maxHeight': '50ex',
+                'overflowY': 'scroll',
+                'width': '100%',
+                'minWidth': '100%',
+            },
+            # style cell
+            style_cell={
+                'fontFamily': 'Open Sans',
+                'textAlign': 'center',
+                'height': '45px',
+                'padding': '2px 22px',
+                'whiteSpace': 'inherit',
+                'overflow': 'hidden',
+                'textOverflow': 'ellipsis',
+            },
+            # style header
+            style_header={
+                'fontWeight': 'bold',
+                'backgroundColor': 'azure',
+            },
+            # style filter
+            # style data
+            style_data_conditional=[
+                {
+                    # stripped rows
+                    'if': {'row_index': 'odd'},
+                    'backgroundColor': 'rgb(248, 248, 248)'
+                }]
+        ),],style={'margin-bottom':'300px',
+             'text-align':'center',
+             'backgroundColor':"#dbe4f0 ",
+             'border':"2px solid LightSteelBlue",
+             'width':"70%",
+             'display':"inline-block",
+             'margin':"1em",
+             'margin-left': '15%', 
+             'margin-right': '15%'})
+    ],
 )
 
     return redirect('/dashapp1')

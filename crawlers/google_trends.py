@@ -1,3 +1,4 @@
+from distutils.log import info
 from pytrends.request import TrendReq
 
 
@@ -11,10 +12,16 @@ class GoogleTrend:
         self.related_keywords = self.trendshow.related_queries()
 
     def rising(self):
-        return self.related_keywords[self.keyword[0]]['rising']
+        info = self.related_keywords[self.keyword[0]]['rising']
+        info.rename({'query':'연관 검색어',
+        'value':'가중치'},axis=1,inplace=True)
+        return info
 
     def top(self):
-        return self.related_keywords[self.keyword[0]]['top']
+        info = self.related_keywords[self.keyword[0]]['top']
+        info.rename({'query':'연관 검색어',
+        'value':'가중치'},axis=1,inplace=True)
+        return info
 
     def trends(self):
         keyword_search_trend = self.trendshow.interest_over_time()
